@@ -10,6 +10,8 @@ var sql = require ("mysql");
 require('babel-polyfill');
 // var fetch = require('isomorphic-fetch');
 
+
+
 // Import game settings.
 var c = require('../../config.json');
 
@@ -497,6 +499,7 @@ function tickPlayer(currentPlayer) {
 
 
     function deleteFood(f) {
+        sockets[currentPlayer.id].emit('deleteFood',food[f].word);
         food[f] = {};
         food.splice(f, 1);
     }

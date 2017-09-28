@@ -294,7 +294,12 @@ function setupSocket(socket) {
         socket.emit('2', virusCell);
         reenviar = false;
     });
-}
+
+    socket.on('deleteFood', function(word){
+        responsiveVoice.speak(word,'Chinese Female');
+        //document.getElementById('我覺得不行').play();
+    });
+} 
 
 function drawCircle(centerX, centerY, radius, sides) {
     var theta = 0;

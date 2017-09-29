@@ -297,9 +297,13 @@ function setupSocket(socket) {
         reenviar = false;
     });
 
-    socket.on('deleteFood', function(word, correctRhyme){
+    socket.on('deleteFood', function (word, correctRhyme) {
         if(correctRhyme === true) responsiveVoice.speak(word,'Chinese Female');
         else document.getElementById('我覺得不行').play();
+    });
+
+    socket.on('changeRhyme', function (rhyme) {
+        player.rhyme = rhyme;
     });
 } 
 

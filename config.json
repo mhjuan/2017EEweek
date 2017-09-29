@@ -25,7 +25,7 @@
     "slowBase": 4.5,
     "logChat": 0,
     "networkUpdateFactor": 30,
-    "maxHeartbeatInterval": 50000,
+    "maxHeartbeatInterval": 120000,
     "foodUniformDisposition": true,
     "virusUniformDisposition": false,
     "newPlayerInitialPosition": "farthest",

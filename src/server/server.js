@@ -502,7 +502,7 @@ function tickPlayer(currentPlayer) {
         var correctRhyme = false;
         for(let i = 0; i < wordData[food[f].word].length; i++) {
             for(let j = 0; j < wordData[food[f].word][i].length; j++) {
-                if(currentCell.rhyme === wordData[food[f].word][i][j]) {
+                if(currentPlayer.rhyme === wordData[food[f].word][i][j]) {
                     correctRhyme = true;
                     break;
                 }
@@ -736,7 +736,8 @@ function sendUpdates() {
                                 cells: f.cells,
                                 massTotal: Math.round(f.massTotal),
                                 hue: f.hue,
-                                name: f.name
+                                name: f.name,
+                                rhyme: f.rhyme,
                             };
                         } else {
                             //console.log("Nombre: " + f.name + " Es Usuario");
@@ -764,9 +765,17 @@ function sendUpdates() {
     leaderboardChanged = false;
 }
 
+function changeRhyme() {
+    users.forEach((u) => {
+        u.rhyme = util.randomRhyme();
+        sockets[u.id].emit('changeRhyme', u.rhyme);
+    });
+}
+
 setInterval(moveloop, 1000 / 30);
 setInterval(gameloop, 1000);
 setInterval(sendUpdates, 1000 / c.networkUpdateFactor);
+setInterval(changeRhyme, 30000);
 
 // Don't touch, IP configurations.
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || process.env.IP || c.host;

@@ -296,7 +296,12 @@ function setupSocket(socket) {
         socket.emit('2', virusCell);
         reenviar = false;
     });
-}
+
+    socket.on('deleteFood', function(word){
+        responsiveVoice.speak(word,'Chinese Female');
+        //document.getElementById('我覺得不行').play();
+    });
+} 
 
 function drawCircle(centerX, centerY, radius, sides) {
     var theta = 0;
@@ -426,10 +431,15 @@ function drawPlayers(order) {
         graph.fill();
         graph.stroke();
         var nameCell = "";
-        if(typeof(userCurrent.id) == "undefined")
+        var rhymeCell = "";
+        if(typeof(userCurrent.id) == "undefined") {
             nameCell = player.name;
-        else
+            rhymeCell = player.rhyme;
+        }
+        else {
             nameCell = userCurrent.name;
+            rhymeCell = userCurrent.rhyme;
+        }
 
         var fontSize = Math.max(cellCurrent.radius / 3, 12);
         graph.lineWidth = playerConfig.textBorderSize;
@@ -442,11 +452,19 @@ function drawPlayers(order) {
         graph.font = 'bold ' + fontSize + 'px sans-serif';
 
         if (global.toggleMassState === 0) {
-            graph.strokeText(nameCell, circle.x, circle.y);
-            graph.fillText(nameCell, circle.x, circle.y);
+            graph.strokeText(rhymeCell, circle.x, circle.y);
+            graph.fillText(rhymeCell, circle.x, circle.y);
+            graph.font = 'bold ' + fontSize / 2 + 'px sans-serif';
+            graph.fillStyle = '#000000';
+            graph.fillStyle = '#010101';
+            graph.strokeText(nameCell, circle.x, circle.y + cellCurrent.radius);
+            graph.fillText(nameCell, circle.x, circle.y + cellCurrent.radius);
         } else {
-            graph.strokeText(nameCell, circle.x, circle.y);
-            graph.fillText(nameCell, circle.x, circle.y);
+            graph.strokeText(rhymeCell, circle.x, circle.y);
+            graph.fillText(rhymeCell, circle.x, circle.y);
+            graph.font = 'bold ' + fontSize / 2 + 'px sans-serif';
+            graph.strokeText(nameCell, circle.x, circle.y + cellCurrent.radius);
+            graph.fillText(nameCell, circle.x, circle.y + cellCurrent.radius);
             graph.font = 'bold ' + Math.max(fontSize / 3 * 2, 10) + 'px sans-serif';
             if(nameCell.length === 0) fontSize = 0;
             graph.strokeText(Math.round(cellCurrent.mass), circle.x, circle.y+fontSize);

@@ -7,12 +7,18 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var SAT = require('sat');
 var sql = require ("mysql");
+require('babel-polyfill');
+// var fetch = require('isomorphic-fetch');
+
+
 
 // Import game settings.
 var c = require('../../config.json');
 
 // Import utilities.
 var util = require('./lib/util');
+var wordData = require('./lib/wordData');
+wordData = wordData.data;
 
 // Import quadtree.
 var quadtree = require('simple-quadtree');
@@ -242,6 +248,7 @@ io.on('connection', function (socket) {
     var type = socket.handshake.query.type;
     var radius = util.massToRadius(c.defaultPlayerMass);
     var position = c.newPlayerInitialPosition == 'farthest' ? util.uniformPosition(users, radius) : util.randomPosition(radius);
+    var rhyme = util.randomRhyme();
 
     var cells = [];
     var massTotal = 0;
@@ -250,7 +257,8 @@ io.on('connection', function (socket) {
             mass: c.defaultPlayerMass,
             x: position.x,
             y: position.y,
-            radius: radius
+            radius: radius,
+            rhyme: rhyme
         }];
         massTotal = c.defaultPlayerMass;
     }
@@ -269,7 +277,8 @@ io.on('connection', function (socket) {
         target: {
             x: 0,
             y: 0
-        }
+        },
+        rhyme: rhyme
     };
 
     socket.on('gotit', function (player) {
@@ -297,7 +306,8 @@ io.on('connection', function (socket) {
                     mass: c.defaultPlayerMass,
                     x: position.x,
                     y: position.y,
-                    radius: radius
+                    radius: radius,
+                    rhyme: rhyme
                 }];
                 player.massTotal = c.defaultPlayerMass;
             }
@@ -454,7 +464,8 @@ io.on('connection', function (socket) {
                     x: cell.x,
                     y: cell.y,
                     radius: cell.radius,
-                    speed: 25
+                    speed: 25,
+                    rhyme: cell.rhyme,
                 });
             }
         }
@@ -486,13 +497,27 @@ function tickPlayer(currentPlayer) {
 
     movePlayer(currentPlayer);
 
-    function funcFood(f) {
-        return SAT.pointInCircle(new V(f.x, f.y), playerCircle);
-    }
 
     function deleteFood(f) {
+        sockets[currentPlayer.id].emit('deleteFood',food[f].word);
         food[f] = {};
         food.splice(f, 1);
+    }
+
+    function funcFood(f) {
+        if(typeof(f.word) == 'undefined') {
+            return SAT.pointInCircle(new V(f.x, f.y), playerCircle);
+        }
+        else {
+            if(SAT.pointInCircle(new V(f.x, f.y), playerCircle)) {
+                for(let i = 0; i < wordData[f.word].length; i++) {
+                    for(let j = 0; j < wordData[f.word][i].length; j++) {
+                        if(currentCell.rhyme === wordData[f.word][i][j]) return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
     function eatMass(m) {
@@ -606,7 +631,7 @@ function tickPlayer(currentPlayer) {
 
 function moveloop() {
     for (var i = 0; i < users.length; i++) {
-        tickPlayer(users[i]);
+         tickPlayer(users[i]);
     }
     for (i=0; i < massFood.length; i++) {
         if(massFood[i].speed > 0) moveMass(massFood[i]);
@@ -693,9 +718,9 @@ function sendUpdates() {
                 }
             })
             .filter(function(f) { return f; });
-
+        
         var visibleCells  = users
-            .map(function(f) {
+            .map((f) => {
                 for(var z=0; z<f.cells.length; z++)
                 {
                     if ( f.cells[z].x+f.cells[z].radius > u.x - u.screenWidth/2 - deltaScreenWidth/2 - 20 &&
@@ -703,6 +728,7 @@ function sendUpdates() {
                         f.cells[z].y+f.cells[z].radius > u.y - u.screenHeight/2 - deltaScreenHeight/2 - 20 &&
                         f.cells[z].y-f.cells[z].radius < u.y + u.screenHeight/2 + deltaScreenHeight/2 + 20) {
                         z = f.cells.lenth;
+
                         if(f.id !== u.id) {
                             return {
                                 id: f.id,
@@ -739,7 +765,7 @@ function sendUpdates() {
     leaderboardChanged = false;
 }
 
-setInterval(moveloop, 1000 / 60);
+setInterval(moveloop, 1000 / 30);
 setInterval(gameloop, 1000);
 setInterval(sendUpdates, 1000 / c.networkUpdateFactor);
 

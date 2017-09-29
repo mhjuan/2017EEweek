@@ -19,22 +19,18 @@ gulp.task('test', ['lint'], function () {
 
 gulp.task('lint', function () {
   return gulp.src(['**/*.js', '!node_modules/**/*.js', '!bin/**/*.js'])
-    .pipe(jshint({
-          esnext: true
-      }))
-    .pipe(jshint.reporter('default', { verbose: true}))
-    .pipe(jshint.reporter('fail'));
+    // .pipe(jshint({
+    //       esnext: true
+    //   }))
+    // .pipe(jshint.reporter('default', { verbose: true}))
+    // .pipe(jshint.reporter('fail'));
 });
 
 gulp.task('build-client', ['lint', 'move-client'], function () {
   return gulp.src(['src/client/js/app.js'])
     .pipe(uglify())
     .pipe(webpack(require('./webpack.config.js')))
-    .pipe(babel({
-      presets: [
-        ['es2015', { 'modules': false }]
-      ]
-    }))
+    // .pipe(babel())
     .pipe(gulp.dest('bin/client/js/'));
 });
 
@@ -46,13 +42,23 @@ gulp.task('move-client', function () {
 
 gulp.task('build-server', ['lint'], function () {
   return gulp.src(['src/server/**/*.*', 'src/server/**/*.js'])
-    .pipe(babel())
+    .pipe(babel({
+        presets: ['env'],
+        plugins: [
+            [
+                "transform-runtime", {
+                    "polyfill": false, 
+                    "regenerator": true
+                }
+            ]
+        ]
+    }))
     .pipe(gulp.dest('bin/server/'));
 });
 
 gulp.task('watch', ['build'], function () {
   gulp.watch(['src/client/**/*.*'], ['build-client', 'move-client']);
-  gulp.watch(['src/server/*.*', 'src/server/**/*.js'], ['build-server']);
+  gulp.watch(['src/server/*.*', 'src/server/**/*.js'], ['build-server', 'run-only']);
   gulp.start('run-only');
 });
 

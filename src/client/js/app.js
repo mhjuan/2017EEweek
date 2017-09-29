@@ -460,14 +460,16 @@ function drawPlayers(order) {
             graph.strokeText(rhymeCell, circle.x, circle.y);
             graph.fillText(rhymeCell, circle.x, circle.y);
             graph.font = 'bold ' + fontSize / 2 + 'px sans-serif';
-            graph.fillStyle = '#000000';
-            graph.fillStyle = '#010101';
+            graph.strokeStyle = '#000000';
+            graph.fillStyle = '#AAA';
             graph.strokeText(nameCell, circle.x, circle.y + cellCurrent.radius);
             graph.fillText(nameCell, circle.x, circle.y + cellCurrent.radius);
         } else {
             graph.strokeText(rhymeCell, circle.x, circle.y);
             graph.fillText(rhymeCell, circle.x, circle.y);
             graph.font = 'bold ' + fontSize / 2 + 'px sans-serif';
+            graph.strokeStyle = '#000000';
+            graph.fillStyle = '#AAA';
             graph.strokeText(nameCell, circle.x, circle.y + cellCurrent.radius);
             graph.fillText(nameCell, circle.x, circle.y + cellCurrent.radius);
             graph.font = 'bold ' + Math.max(fontSize / 3 * 2, 10) + 'px sans-serif';

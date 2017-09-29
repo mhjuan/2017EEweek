@@ -295,7 +295,7 @@ function setupSocket(socket) {
 
     socket.on('virusSplit', function (virusCell) {
         socket.emit('2', virusCell);
-        reenviar = false;
+        // reenviar = false;
     });
 
     socket.on('deleteFood', function (word, correctRhyme) {

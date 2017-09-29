@@ -500,14 +500,16 @@ function tickPlayer(currentPlayer) {
     var masaGanada = 0;
     function deleteFood(f) {
         var correctRhyme = false;
-        for(let i = 0; i < wordData[food[f].word].length; i++) {
-            for(let j = 0; j < wordData[food[f].word][i].length; j++) {
-                if(currentPlayer.rhyme === wordData[food[f].word][i][j]) {
-                    correctRhyme = true;
-                    break;
+        if(typeof(food[f]) !== 'undefined') {
+            for(let i = 0; i < wordData[food[f].word].length; i++) {
+                for(let j = 0; j < wordData[food[f].word][i].length; j++) {
+                    if(currentPlayer.rhyme === wordData[food[f].word][i][j]) {
+                        correctRhyme = true;
+                        break;
+                    }
                 }
+                if(correctRhyme === true) break;
             }
-            if(correctRhyme === true) break;
         }
         sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
         if(correctRhyme === false) masaGanada -= 3;
@@ -578,6 +580,7 @@ function tickPlayer(currentPlayer) {
 
     for(var z=0; z<currentPlayer.cells.length; z++) {
         var currentCell = currentPlayer.cells[z];
+        currentCell.num = z;
         var playerCircle = new C(
             new V(currentCell.x, currentCell.y),
             currentCell.radius
@@ -618,12 +621,12 @@ function tickPlayer(currentPlayer) {
         currentCell.radius = util.massToRadius(currentCell.mass);
         playerCircle.r = currentCell.radius;
 
-        tree.clear();
-        users.forEach(tree.put);
+        // tree.clear();
+        // users.forEach(tree.put);
         var playerCollisions = [];
 
-        var otherUsers =  tree.get(currentPlayer, check);
-
+        // var otherUsers =  tree.get(currentPlayer, check);
+        users.forEach(check);
         playerCollisions.forEach(collisionCheck);
     }
 }

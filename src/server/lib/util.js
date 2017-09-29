@@ -100,7 +100,7 @@ exports.randomColor = function() {
 
 exports.randomWord = function() {
     var eeWeek = '電機週';
-    return Math.floor(Math.random() * 10) === 0 ? eeWeek[Math.floor(Math.random()) * 3] : words[Math.floor(Math.random() * words.length)];
+    return Math.floor(Math.random() * 10) === 0 ? eeWeek[Math.floor(Math.random() * 3)] : words[Math.floor(Math.random() * words.length)];
 };
 
 var rhymes = `ㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ`;

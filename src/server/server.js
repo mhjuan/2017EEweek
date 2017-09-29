@@ -684,12 +684,14 @@ function sendUpdates() {
         u.x = u.x || c.gameWidth / 2;
         u.y = u.y || c.gameHeight / 2;
 
+        var deltaScreenWidth = (u.massTotal > 200) ? (u.massTotal - 200) / 3 : 0;
+        var deltaScreenHeight = (u.massTotal > 200) ? ((u.massTotal - 200) / 3) * (u.screenHeight / u.screenWidth) : 0;
         var visibleFood  = food
             .map(function(f) {
-                if ( f.x > u.x - u.screenWidth/2 - 20 &&
-                    f.x < u.x + u.screenWidth/2 + 20 &&
-                    f.y > u.y - u.screenHeight/2 - 20 &&
-                    f.y < u.y + u.screenHeight/2 + 20) {
+                if (f.x > u.x - u.screenWidth/2 - deltaScreenWidth/2 - 20 &&
+                    f.x < u.x + u.screenWidth/2 + deltaScreenWidth/2 + 20 &&
+                    f.y > u.y - u.screenHeight/2 - deltaScreenHeight/2 - 20 &&
+                    f.y < u.y + u.screenHeight/2 + deltaScreenHeight/2 + 20) {
                     return f;
                 }
             })
@@ -697,10 +699,10 @@ function sendUpdates() {
 
         var visibleVirus  = virus
             .map(function(f) {
-                if ( f.x > u.x - u.screenWidth/2 - f.radius &&
-                    f.x < u.x + u.screenWidth/2 + f.radius &&
-                    f.y > u.y - u.screenHeight/2 - f.radius &&
-                    f.y < u.y + u.screenHeight/2 + f.radius) {
+                if ( f.x > u.x - u.screenWidth/2 - deltaScreenWidth/2 - f.radius &&
+                    f.x < u.x + u.screenWidth/2 + deltaScreenWidth/2 + f.radius &&
+                    f.y > u.y - u.screenHeight/2 - deltaScreenHeight/2 - f.radius &&
+                    f.y < u.y + u.screenHeight/2 + deltaScreenHeight/2 + f.radius) {
                     return f;
                 }
             })
@@ -708,10 +710,10 @@ function sendUpdates() {
 
         var visibleMass = massFood
             .map(function(f) {
-                if ( f.x+f.radius > u.x - u.screenWidth/2 - 20 &&
-                    f.x-f.radius < u.x + u.screenWidth/2 + 20 &&
-                    f.y+f.radius > u.y - u.screenHeight/2 - 20 &&
-                    f.y-f.radius < u.y + u.screenHeight/2 + 20) {
+                if ( f.x+f.radius > u.x - u.screenWidth/2 - deltaScreenWidth/2 - 20 &&
+                    f.x-f.radius < u.x + u.screenWidth/2 + deltaScreenWidth/2 + 20 &&
+                    f.y+f.radius > u.y - u.screenHeight/2 - deltaScreenHeight/2 - 20 &&
+                    f.y-f.radius < u.y + u.screenHeight/2 + deltaScreenHeight/2 + 20) {
                     return f;
                 }
             })
@@ -721,11 +723,12 @@ function sendUpdates() {
             .map((f) => {
                 for(var z=0; z<f.cells.length; z++)
                 {
-                    if ( f.cells[z].x+f.cells[z].radius > u.x - u.screenWidth/2 - 20 &&
-                        f.cells[z].x-f.cells[z].radius < u.x + u.screenWidth/2 + 20 &&
-                        f.cells[z].y+f.cells[z].radius > u.y - u.screenHeight/2 - 20 &&
-                        f.cells[z].y-f.cells[z].radius < u.y + u.screenHeight/2 + 20) {
-                        z = f.cells.length;
+                    if ( f.cells[z].x+f.cells[z].radius > u.x - u.screenWidth/2 - deltaScreenWidth/2 - 20 &&
+                        f.cells[z].x-f.cells[z].radius < u.x + u.screenWidth/2 + deltaScreenWidth/2 + 20 &&
+                        f.cells[z].y+f.cells[z].radius > u.y - u.screenHeight/2 - deltaScreenHeight/2 - 20 &&
+                        f.cells[z].y-f.cells[z].radius < u.y + u.screenHeight/2 + deltaScreenHeight/2 + 20) {
+                        z = f.cells.lenth;
+
                         if(f.id !== u.id) {
                             return {
                                 id: f.id,
@@ -750,8 +753,8 @@ function sendUpdates() {
                 }
             })
             .filter(function(f) { return f; });
-        // console.log(users, visibleCells);
-        sockets[u.id].emit('serverTellPlayerMove', visibleCells, visibleFood, visibleMass, visibleVirus);
+
+        sockets[u.id].emit('serverTellPlayerMove', deltaScreenWidth, deltaScreenHeight, visibleCells, visibleFood, visibleMass, visibleVirus);
         if (leaderboardChanged) {
             sockets[u.id].emit('leaderboard', {
                 players: users.length,

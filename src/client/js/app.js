@@ -242,7 +242,7 @@ function setupSocket(socket) {
     });
 
     // Handle movement.
-    socket.on('serverTellPlayerMove', function (userData, foodsList, massList, virusList) {
+    socket.on('serverTellPlayerMove', function (deltaScreenWidth, deltaScreenHeight, userData, foodsList, massList, virusList) {
         var playerData;
         for(var i =0; i< userData.length; i++) {
             if(typeof(userData[i].id) == "undefined") {
@@ -256,6 +256,8 @@ function setupSocket(socket) {
 
             player.x = playerData.x;
             player.y = playerData.y;
+            global.screenWidth = global.playerType == 'player' ? window.innerWidth + deltaScreenWidth : global.gameWidth;
+            global.screenHeight = global.playerType == 'player' ? window.innerHeight + deltaScreenHeight : global.gameHeight;
             player.hue = playerData.hue;
             player.massTotal = playerData.massTotal;
             player.cells = playerData.cells;
@@ -331,8 +333,12 @@ function drawFood(food) {
     graph.fillStyle = '#000000';
     graph.strokeStyle = '#FFFFFF';
     graph.font = 'bold ' + 16 + 'px sans-serif';
-    graph.strokeText(food.word, food.x - player.x + global.screenWidth / 2, food.y - player.y + global.screenHeight / 2);
-    graph.fillText(food.word, food.x - player.x + global.screenWidth / 2, food.y - player.y + global.screenHeight / 2);
+    graph.strokeText(food.word,
+                     food.x - player.x + global.screenWidth / 2 - 8,
+                     food.y - player.y + global.screenHeight / 2 + 6);
+    graph.fillText(food.word,
+                   food.x - player.x + global.screenWidth / 2 - 8,
+                   food.y - player.y + global.screenHeight / 2 + 6);
 
 }
 
@@ -568,6 +574,9 @@ function gameLoop() {
     }
     else if (!global.disconnected) {
         if (global.gameStart) {
+            c.width = global.screenWidth;
+            c.height = global.screenHeight;
+
             graph.fillStyle = global.backgroundColor;
             graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
 

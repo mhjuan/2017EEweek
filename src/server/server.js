@@ -497,27 +497,27 @@ function tickPlayer(currentPlayer) {
 
     movePlayer(currentPlayer);
 
-
+    var masaGanada = 0;
     function deleteFood(f) {
-        sockets[currentPlayer.id].emit('deleteFood',food[f].word);
+        var correctRhyme = false;
+        for(let i = 0; i < wordData[food[f].word].length; i++) {
+            for(let j = 0; j < wordData[food[f].word][i].length; j++) {
+                if(currentCell.rhyme === wordData[food[f].word][i][j]) {
+                    correctRhyme = true;
+                    break;
+                }
+            }
+            if(correctRhyme === true) break;
+        }
+        sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
+        if(correctRhyme === false) masaGanada -= 3;
+        else masaGanada += 18;
         food[f] = {};
         food.splice(f, 1);
     }
 
     function funcFood(f) {
-        if(typeof(f.word) == 'undefined') {
-            return SAT.pointInCircle(new V(f.x, f.y), playerCircle);
-        }
-        else {
-            if(SAT.pointInCircle(new V(f.x, f.y), playerCircle)) {
-                for(let i = 0; i < wordData[f.word].length; i++) {
-                    for(let j = 0; j < wordData[f.word][i].length; j++) {
-                        if(currentCell.rhyme === wordData[f.word][i][j]) return true;
-                    }
-                }
-            }
-            return false;
-        }
+        return SAT.pointInCircle(new V(f.x, f.y), playerCircle);
     }
 
     function eatMass(m) {
@@ -599,7 +599,6 @@ function tickPlayer(currentPlayer) {
           virus.splice(virusCollision, 1);
         }
 
-        var masaGanada = 0;
         for(var m=0; m<massEaten.length; m++) {
             masaGanada += massFood[massEaten[m]].masa;
             massFood[massEaten[m]] = {};

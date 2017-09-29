@@ -25,7 +25,12 @@ getData = async () => {
                         // console.log(h[i]);
                         if (typeof(h[i].bopomofo) !== 'undefined') {
                             file.write('\'');
-                            file.write(h[i].bopomofo);
+                            const lastChar = h[i].bopomofo[h[i].bopomofo.length - 1];
+                            if (lastChar === 'ˇ' || lastChar === 'ˋ' || lastChar === 'ˊ' || lastChar === '˙') {
+                                file.write(h[i].bopomofo.slice(-2, -1))
+                            } else {
+                                file.write(h[i].bopomofo.slice(-1));
+                            }
                             file.write('\',');
                         }
                     }

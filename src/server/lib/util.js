@@ -7,8 +7,7 @@ var words = require('./words');
 words = words.words;
 
 exports.validNick = function(nickname) {
-    var regex = /^\w*$/;
-    return regex.exec(nickname) !== null;
+    return nickname.trim().length !== 0;
 };
 
 // determine mass from radius of circle

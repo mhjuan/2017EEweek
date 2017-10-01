@@ -686,8 +686,8 @@ function sendUpdates() {
         u.x = u.x || c.gameWidth / 2;
         u.y = u.y || c.gameHeight / 2;
 
-        var deltaScreenWidth = (u.massTotal > 200) ? (u.massTotal - 200) / 3 : 0;
-        var deltaScreenHeight = (u.massTotal > 200) ? ((u.massTotal - 200) / 3) * (u.screenHeight / u.screenWidth) : 0;
+        var deltaScreenWidth = (u.massTotal > 200) ? (u.massTotal - 200) / 2 : 0;
+        var deltaScreenHeight = (u.massTotal > 200) ? ((u.massTotal - 200) / 2) * (u.screenHeight / u.screenWidth) : 0;
         var visibleFood  = food
             .map(function(f) {
                 if (f.x > u.x - u.screenWidth/2 - deltaScreenWidth/2 - 20 &&

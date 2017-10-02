@@ -497,7 +497,6 @@ function tickPlayer(currentPlayer) {
 
     movePlayer(currentPlayer);
 
-    var masaGanada = 0;
     function deleteFood(f) {
         var correctRhyme = false;
         if(typeof(food[f]) !== 'undefined') {
@@ -579,8 +578,9 @@ function tickPlayer(currentPlayer) {
     }
 
     for(var z=0; z<currentPlayer.cells.length; z++) {
+        // console.log(currentPlayer.cells.length);
         var currentCell = currentPlayer.cells[z];
-        currentCell.num = z;
+        // currentCell.num = z;
         var playerCircle = new C(
             new V(currentCell.x, currentCell.y),
             currentCell.radius
@@ -602,11 +602,13 @@ function tickPlayer(currentPlayer) {
           virus.splice(virusCollision, 1);
         }
 
+        var masaGanada = 0;
+
         for(var m=0; m<massEaten.length; m++) {
             masaGanada += massFood[massEaten[m]].masa;
             massFood[massEaten[m]] = {};
             massFood.splice(massEaten[m],1);
-            for(var n=0; n<massEaten.length; n++) {
+            for(var n=m+1; n<massEaten.length; n++) {
                 if(massEaten[m] < massEaten[n]) {
                     massEaten[n]--;
                 }
@@ -620,7 +622,7 @@ function tickPlayer(currentPlayer) {
         currentPlayer.massTotal += masaGanada;
         currentCell.radius = util.massToRadius(currentCell.mass);
         playerCircle.r = currentCell.radius;
-
+        // console.log(z,currentCell);
         // tree.clear();
         // users.forEach(tree.put);
         var playerCollisions = [];

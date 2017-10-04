@@ -103,7 +103,7 @@ exports.randomWord = function() {
     return Math.floor(Math.random() * 10) === 0 ? eeWeek[Math.floor(Math.random() * 3)] : words[Math.floor(Math.random() * words.length)];
 };
 
-var rhymes = `ㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦ`;
+var rhymes = `ㄓㄔㄕㄖㄗㄘㄙㄧㄨㄩㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄦㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥㄚㄛㄜㄝㄞㄟㄠㄡㄢㄣㄤㄥ`;
 
 exports.randomRhyme = function() {
     return rhymes[Math.floor(Math.random() * rhymes.length)];

@@ -185,7 +185,7 @@ function setupSocket(socket) {
         window.chat.player = player;
         socket.emit('gotit', player);
         global.gameStart = true;
-        debug('Game started at: ' + global.gameStart);
+        // debug('Game started at: ' + global.gameStart);
         window.chat.addSystemLine('Connected to the game!');
         window.chat.addSystemLine('Type <b>-help</b> for a list of commands.');
         if (global.mobile) {
@@ -301,11 +301,12 @@ function setupSocket(socket) {
     socket.on('deleteFood', function (word, correctRhyme) {
         if(correctRhyme === true) responsiveVoice.speak(word,'Chinese Female');
         else {
-            var ran = Math.floor(Math.random()*4);
-            if(ran == 0)document.getElementById('我覺得不行').play();
-            if(ran == 1)document.getElementById('skia').play();
-            if(ran == 2)document.getElementById('skir').play();
-            if(ran == 3)document.getElementById('woo').play();
+            var ran = Math.floor(Math.random() * 5);
+            if(ran === 0) document.getElementById('我覺得不行').play();
+            else if(ran === 1) document.getElementById('skia').play();
+            else if(ran === 2) document.getElementById('skir').play();
+            else if(ran === 3) document.getElementById('woo').play();
+            else if(ran === 4) document.getElementById('bang').play();
         }
     });
 

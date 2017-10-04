@@ -509,12 +509,12 @@ function tickPlayer(currentPlayer) {
                 }
                 if(correctRhyme === true) break;
             }
+            sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
+            if(correctRhyme === false) masaGanada -= 3;
+            else masaGanada += 18;
+            food[f] = {};
+            food.splice(f, 1);
         }
-        sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
-        if(correctRhyme === false) masaGanada -= 4;
-        else masaGanada += 50;
-        food[f] = {};
-        food.splice(f, 1);
     }
 
     function funcFood(f) {
@@ -590,7 +590,7 @@ function tickPlayer(currentPlayer) {
 
         var foodEaten = food.map(funcFood)
             .reduce( function(a, b, c) { return b ? a.concat(c) : a; }, []);
-
+            
         foodEaten.forEach(deleteFood);
 
         var massEaten = massFood.map(eatMass)
@@ -603,8 +603,6 @@ function tickPlayer(currentPlayer) {
           sockets[currentPlayer.id].emit('virusSplit', z);
           virus.splice(virusCollision, 1);
         }
-
-        
 
         for(var m=0; m<massEaten.length; m++) {
             masaGanada += massFood[massEaten[m]].masa;

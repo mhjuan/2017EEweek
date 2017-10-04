@@ -300,7 +300,13 @@ function setupSocket(socket) {
 
     socket.on('deleteFood', function (word, correctRhyme) {
         if(correctRhyme === true) responsiveVoice.speak(word,'Chinese Female');
-        else document.getElementById('我覺得不行').play();
+        else {
+            var ran = Math.floor(Math.random()*4);
+            if(ran == 0)document.getElementById('我覺得不行').play();
+            if(ran == 1)document.getElementById('skia').play();
+            if(ran == 2)document.getElementById('skir').play();
+            if(ran == 3)document.getElementById('woo').play();
+        }
     });
 
     socket.on('changeRhyme', function (rhyme) {

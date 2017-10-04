@@ -511,8 +511,8 @@ function tickPlayer(currentPlayer) {
             }
         }
         sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
-        if(correctRhyme === false) masaGanada -= 3;
-        else masaGanada += 18;
+        if(correctRhyme === false) masaGanada -= 4;
+        else masaGanada += 50;
         food[f] = {};
         food.splice(f, 1);
     }
@@ -578,6 +578,8 @@ function tickPlayer(currentPlayer) {
     }
 
     for(var z=0; z<currentPlayer.cells.length; z++) {
+
+        var masaGanada = 0;
         // console.log(currentPlayer.cells.length);
         var currentCell = currentPlayer.cells[z];
         // currentCell.num = z;
@@ -602,7 +604,7 @@ function tickPlayer(currentPlayer) {
           virus.splice(virusCollision, 1);
         }
 
-        var masaGanada = 0;
+        
 
         for(var m=0; m<massEaten.length; m++) {
             masaGanada += massFood[massEaten[m]].masa;

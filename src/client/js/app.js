@@ -617,8 +617,24 @@ function gameLoop() {
             });
 
             drawPlayers(orderMass);
-            socket.emit('0', window.canvas.target); // playerSendTarget "Heartbeat".
-
+            var nx = window.canvas.target.x;
+            var ny = window.canvas.target.y;
+            if(nx !== 0 || ny !== 0) {
+                nx += (global.screenWidth - window.innerWidth) / 2;
+                ny += (global.screenHeight - window.innerHeight) / 2;
+                if(nx > 1000) nx = 300;
+                else if(nx < -1000) nx = -300;
+                if(ny > 1000) ny = 300;
+                else if(ny < -1000) ny = -300;
+            }
+            socket.emit('0', {
+                x: nx * 1.5,
+                y: ny * 1.5
+            }); // playerSendTarget "Heartbeat".
+            console.log(window.canvas.target, {
+                x: nx * 1.5,
+                y: ny * 1.5
+            });
         } else {
             graph.fillStyle = '#333333';
             graph.fillRect(0, 0, global.screenWidth, global.screenHeight);

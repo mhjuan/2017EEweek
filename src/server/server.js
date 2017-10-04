@@ -491,7 +491,7 @@ io.on('connection', function (socket) {
 
 function tickPlayer(currentPlayer) {
     if(currentPlayer.lastHeartbeat < new Date().getTime() - c.maxHeartbeatInterval) {
-        sockets[currentPlayer.id].emit('kick', 'Last heartbeat received over ' + c.maxHeartbeatInterval + ' ago.');
+        sockets[currentPlayer.id].emit('kick', '你已經 ' + c.maxHeartbeatInterval / 1000+ ' 秒沒有動惹');
         sockets[currentPlayer.id].disconnect();
     }
 

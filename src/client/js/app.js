@@ -50,12 +50,12 @@ function validNick() {
 window.onload = function() {
 
     var btn = document.getElementById('startButton'),
-        btnS = document.getElementById('spectateButton'),
+        // btnS = document.getElementById('spectateButton'),
         nickErrorText = document.querySelector('#startMenu .input-error');
 
-    btnS.onclick = function () {
-        startGame('spectate');
-    };
+    // btnS.onclick = function () {
+    //     startGame('spectate');
+    // };
 
     btn.onclick = function () {
 
@@ -68,17 +68,17 @@ window.onload = function() {
         }
     };
 
-    var settingsMenu = document.getElementById('settingsButton');
-    var settings = document.getElementById('settings');
+    // var settingsMenu = document.getElementById('settingsButton');
+    // var settings = document.getElementById('settings');
     var instructions = document.getElementById('instructions');
 
-    settingsMenu.onclick = function () {
-        if (settings.style.maxHeight == '300px') {
-            settings.style.maxHeight = '0px';
-        } else {
-            settings.style.maxHeight = '300px';
-        }
-    };
+    // settingsMenu.onclick = function () {
+    //     if (settings.style.maxHeight == '300px') {
+    //         settings.style.maxHeight = '0px';
+    //     } else {
+    //         settings.style.maxHeight = '300px';
+    //     }
+    // };
 
     playerNameInput.addEventListener('keypress', function (e) {
         var key = e.which || e.keyCode;
@@ -186,8 +186,8 @@ function setupSocket(socket) {
         socket.emit('gotit', player);
         global.gameStart = true;
         // debug('Game started at: ' + global.gameStart);
-        window.chat.addSystemLine('Connected to the game!');
-        window.chat.addSystemLine('Type <b>-help</b> for a list of commands.');
+        window.chat.addSystemLine('嗨一 你連接到遊戲囉～');
+        // window.chat.addSystemLine('Type <b>-help</b> for a list of commands.');
         if (global.mobile) {
             document.getElementById('gameAreaWrapper').removeChild(document.getElementById('chatbox'));
         }
@@ -201,32 +201,32 @@ function setupSocket(socket) {
     });
 
     socket.on('playerDied', function (data) {
-        window.chat.addSystemLine('{GAME} - <b>' + (data.name.length < 1 ? 'An unnamed cell' : data.name) + '</b> was eaten.');
+        window.chat.addSystemLine('{遊戲} - <b>' + (data.name.length < 1 ? '未命名的球球' : data.name) + '</b> 被吃掉惹');
     });
 
     socket.on('playerDisconnect', function (data) {
-        window.chat.addSystemLine('{GAME} - <b>' + (data.name.length < 1 ? 'An unnamed cell' : data.name) + '</b> disconnected.');
+        window.chat.addSystemLine('{遊戲} - <b>' + (data.name.length < 1 ? '未命名的球球' : data.name) + '</b> 斷線惹');
     });
 
     socket.on('playerJoin', function (data) {
-        window.chat.addSystemLine('{GAME} - <b>' + (data.name.length < 1 ? 'An unnamed cell' : data.name) + '</b> joined.');
+        window.chat.addSystemLine('{遊戲} - <b>' + (data.name.length < 1 ? '未命名的球球' : data.name) + '</b> 加入囉');
     });
 
     socket.on('leaderboard', function (data) {
         leaderboard = data.leaderboard;
-        var status = '<span class="title">Leaderboard</span>';
+        var status = '<span class="title">排行榜</span>';
         for (var i = 0; i < leaderboard.length; i++) {
             status += '<br />';
             if (leaderboard[i].id == player.id){
                 if(leaderboard[i].name.length !== 0)
                     status += '<span class="me">' + (i + 1) + '. ' + leaderboard[i].name + "</span>";
                 else
-                    status += '<span class="me">' + (i + 1) + ". An unnamed cell</span>";
+                    status += '<span class="me">' + (i + 1) + ". 未命名的球球</span>";
             } else {
                 if(leaderboard[i].name.length !== 0)
                     status += (i + 1) + '. ' + leaderboard[i].name;
                 else
-                    status += (i + 1) + '. An unnamed cell';
+                    status += (i + 1) + '. 未命名的球球';
             }
         }
         //status += '<br />Players: ' + data.players;
@@ -584,7 +584,7 @@ function gameLoop() {
         graph.textAlign = 'center';
         graph.fillStyle = '#FFFFFF';
         graph.font = 'bold 30px sans-serif';
-        graph.fillText('You died!', global.screenWidth / 2, global.screenHeight / 2);
+        graph.fillText('你死了ＱＱ', global.screenWidth / 2, global.screenHeight / 2);
     }
     else if (!global.disconnected) {
         if (global.gameStart) {
@@ -631,10 +631,10 @@ function gameLoop() {
                 x: nx * 1.5,
                 y: ny * 1.5
             }); // playerSendTarget "Heartbeat".
-            console.log(window.canvas.target, {
-                x: nx * 1.5,
-                y: ny * 1.5
-            });
+            // console.log(window.canvas.target, {
+            //     x: nx * 1.5,
+            //     y: ny * 1.5
+            // });
         } else {
             graph.fillStyle = '#333333';
             graph.fillRect(0, 0, global.screenWidth, global.screenHeight);
@@ -642,7 +642,7 @@ function gameLoop() {
             graph.textAlign = 'center';
             graph.fillStyle = '#FFFFFF';
             graph.font = 'bold 30px sans-serif';
-            graph.fillText('Game Over!', global.screenWidth / 2, global.screenHeight / 2);
+            graph.fillText('遊戲結束ＱＱ', global.screenWidth / 2, global.screenHeight / 2);
         }
     } else {
         graph.fillStyle = '#333333';
@@ -653,7 +653,7 @@ function gameLoop() {
         graph.font = 'bold 30px sans-serif';
         if (global.kicked) {
             if (reason !== '') {
-                graph.fillText('You were kicked for:', global.screenWidth / 2, global.screenHeight / 2 - 20);
+                graph.fillText('你被強制斷線囉，因為', global.screenWidth / 2, global.screenHeight / 2 - 20);
                 graph.fillText(reason, global.screenWidth / 2, global.screenHeight / 2 + 20);
             }
             else {
@@ -661,7 +661,7 @@ function gameLoop() {
             }
         }
         else {
-              graph.fillText('Disconnected!', global.screenWidth / 2, global.screenHeight / 2);
+              graph.fillText('斷線惹ＱＱ', global.screenWidth / 2, global.screenHeight / 2);
         }
     }
 }

@@ -18,10 +18,10 @@
 </head>
 <body>
     <div id="gameAreaWrapper">
-        <div id="status"><span class="title">Leaderboard</span></div>
+        <div id="status"><span class="title">排行榜</span></div>
         <div class="chatbox" id="chatbox">
             <ul id="chatList" class="chat-list"></ul>
-            <input id="chatInput" type="text" class="chat-input" placeholder="Chat here..." maxlength="35" />
+            <input id="chatInput" type="text" class="chat-input" placeholder="可以在這裡聊天噢..." maxlength="35" />
         </div>
         <div id="mobile">
            <input type="image" id="split" class="split" src="img/split.png" alt="splitBtn">
@@ -31,13 +31,14 @@
     </div>
     <div id="startMenuWrapper">
         <div id="startMenu">
-            <p>frEEstyle</p>
-            <input type="text" tabindex="0" autofocus placeholder="Enter your name here" id="playerNameInput" maxlength="25" />
-            <b class="input-error">Nick must be alphanumeric characters only!</b>
+            <p style="margin: 1em 0 0 0">frEEstyle</p>
+            <h4 style="text-align: center">2017 台大電機週 網頁遊戲</h4>
+            <input type="text" tabindex="0" autofocus placeholder="請輸入名字" id="playerNameInput" maxlength="25" />
+            <b class="input-error">名字不能是空白的！！</b>
             <br />
-            <a onclick="document.getElementById('spawn_cell').play();"><button id="startButton">Play</button></a>
-            <button id="spectateButton">Spectate</button>
-            <button id="settingsButton">Settings</button>
+            <a onclick="document.getElementById('spawn_cell').play();"><button id="startButton">開始玩～</button></a>
+            <!-- <button id="spectateButton">Spectate</button> -->
+            <!-- <button id="settingsButton">Settings</button> -->
             <br />
             <div id="settings">
                 <h3>Settings</h3>
@@ -52,14 +53,17 @@
                 </ul>
             </div>
             <div id="instructions">
-                <h3>Gameplay</h3>
-                <ul>
-                    <li>Move your mouse on the screen to move your character.</li>
-                    <li>Eat food and other players in order to grow your character.</li>
-                    <li>If you eat the word whose rhyme is the one on your body,you can grow much bigger.</li>
-                    <li>A player's mass is the number of food particles eaten.</li>
-                    <li>Objective: Try to get fat and eat other players.</li>
+                <h3>遊戲進行方式</h3>
+                <ul style="padding: 0 10px 0 10px">
+                    <li>移動滑鼠游標 或 使用⬆️⬇️⬅️➡️ 使你的球球移動</li>
+                    <li>你可以 吃食物 或 吃其他人的球球 讓自己變大</li>
+                    <li>如果你吃的食物上面的字和你球球上的韻腳相同，你會變大很多</li>
+                    <li>按空白鍵可以分裂；按w可以射出食物</li>
+                    <li>遊戲目標：變得盡量大並且幹掉其他對手</li>
                 </ul>
+                <p style="margin: 10px">記得開聲音！！！</p>
+                <h4 style="text-align: center; margin: 0">手機版因技術問題尚無音效，</h4>
+                <h4 style="text-align: center; margin: 0">請使用電腦以獲得最好的遊戲體驗</h4>
             </div>
         </div>
     </div>

@@ -511,7 +511,7 @@ function tickPlayer(currentPlayer) {
             }
             sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
             if(correctRhyme === false) masaGanada -= 3;
-            else masaGanada += currentPlayer.massTotal*0.2;
+            else masaGanada += 18;
             food[f] = {};
             food.splice(f, 1);
         }

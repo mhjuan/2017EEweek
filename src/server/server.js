@@ -511,7 +511,7 @@ function tickPlayer(currentPlayer) {
             }
             sockets[currentPlayer.id].emit('deleteFood', food[f].word, correctRhyme);
             if(correctRhyme === false) masaGanada -= 3;
-            else masaGanada += 18;
+            else masaGanada += currentPlayer.massTotal*0.2;
             food[f] = {};
             food.splice(f, 1);
         }
@@ -652,7 +652,8 @@ function gameloop() {
             if(users[i].type == 'player') {
                 topUsers.push({
                     id: users[i].id,
-                    name: users[i].name
+                    name: users[i].name,
+                    massTotal: Math.floor(users[i].massTotal)
                 });
             }
         }
@@ -762,7 +763,6 @@ function sendUpdates() {
         sockets[u.id].emit('serverTellPlayerMove', deltaScreenWidth, deltaScreenHeight, visibleCells, visibleFood, visibleMass, visibleVirus);
         if (leaderboardChanged) {
             sockets[u.id].emit('leaderboard', {
-                players: users.length,
                 leaderboard: leaderboard
             });
         }

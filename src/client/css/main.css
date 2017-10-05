@@ -65,7 +65,7 @@ div {
 .chatbox {
     position: absolute;
     width: 300px;
-    height: 320px;
+    //height: 320px;
     background: rgba(255, 255, 255, 0.7);
     bottom: 5px;
     left: 5px;
@@ -78,7 +78,7 @@ div {
     margin: 0;
     list-style: none;
     box-sizing: border-box;
-    height: 285px;
+    height: 300px;
     overflow: hidden;
 }
 

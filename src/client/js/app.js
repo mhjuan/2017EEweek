@@ -620,12 +620,12 @@ function gameLoop() {
             var nx = window.canvas.target.x;
             var ny = window.canvas.target.y;
             if(nx !== 0 || ny !== 0) {
-                nx += (global.screenWidth - window.innerWidth) / 2;
-                ny += (global.screenHeight - window.innerHeight) / 2;
                 if(nx > 1000) nx = 300;
                 else if(nx < -1000) nx = -300;
+                else nx += (global.screenWidth - window.innerWidth) / 2;
                 if(ny > 1000) ny = 300;
                 else if(ny < -1000) ny = -300;
+                else ny += (global.screenHeight - window.innerHeight) / 2;
             }
             socket.emit('0', {
                 x: nx * 1.5,
